@@ -321,19 +321,33 @@
                 </thead>
 
                 <tbody>
+                  <?php 
+                   $select = "SELECT * FROM tb_contatos WHERE id_user = :id_user ORDER BY id_contatos DESC LIMIT 6";
 
+                    try {
+                        // PASSO 2: Prepara a query e associa o ID do usuário conectado
+                        $result = $conect->prepare($select);
+                        $result->bindParam(':id_user', $id_user, PDO::PARAM_INT);
+                        
+                        // PASSO 3: Executa a busca e inicializa o contador da tabela
+                        $result->execute();
+                        $cont = 1;
+
+                        // PASSO 4: Avalia se existem registros retornados
+                        if ($result->rowCount() > 0) {
+                            // PASSO 5: Laço enquanto houver linhas no resultado
+                            while ($show = $result->fetch(PDO::FETCH_OBJ)) {
+                  ?>
                   <tr>
-                    <td>1</td>
+                    <td><?php echo $cont++; ?></td>
 
-                    <td>Leandro</td>
+                    <td><?php echo $show->nome_contatos; ?></td>
 
-                    <td>
-                      85991446498
-                    </td>
+                    <td> <?php echo $show->fone_contatos; ?></td>
 
-                    <td>
-                      francisco.silva92@prof.ce.gov
-                    </td>
+                    <td><?php echo $show->email_contatos; ?></td>
+                      
+                   
 
                     <td>
 
@@ -356,7 +370,16 @@
 
                     </td>
                   </tr>
-
+                  <?php
+                      }
+                        } else {
+                            // Exibe linha caso a busca não retorne contatos
+                            echo '<tr><td colspan="5" class="text-center">Nenhum contato encontrado.</td></tr>';
+                        }
+                    } catch (PDOException $e) {
+                        echo '<tr><td colspan="5" class="text-danger">ERRO DE PDO= ' . $e->getMessage() . '</td></tr>';
+                    }
+                  ?>
                 </tbody>
 
               </table>

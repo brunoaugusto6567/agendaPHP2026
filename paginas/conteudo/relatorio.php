@@ -30,9 +30,25 @@
                   </tr>
                   </thead>
                   <tbody>
-                  
+                  <?php
+                    $select = "SELECT * FROM tb_contatos ORDER BY id_contatos DESC";
+
+                    try {
+                        $result = $conect->prepare($select);
+                        $cont = 1;
+                        $result->execute();
+
+                        // PASSO 2: Verifica se o retorno contém registros
+                        $contar = $result->rowCount();
+                        if ($contar > 0) {
+                            // PASSO 3: Percorre cada objeto de contato retornado
+                            while ($show = $result->FETCH(PDO::FETCH_OBJ)) {
+
+                  ?>
                                       
                     <tr>
+
+
                       <td>1</td>
                       <td>
                       <img src="images/">
@@ -48,7 +64,9 @@
                       </div>
                       </td>
                     </tr>
-                   
+                   <?php 
+
+                   ?>
                   </tbody>
                   <tfoot>
                   <tr>
@@ -61,8 +79,7 @@
                   </tr>
                   </tfoot>
                 </table>
-                <div class="col-lg-12 d-flex justify-content-center">
-                  <a href="conteudo/relatoriopdf.php?id=<?php echo $id_user;?>" class="btn btn-lg btn-primary">Gerar relatório completo</a>
+                
                 </div>
                 </div>
               <!-- /.card-body -->
