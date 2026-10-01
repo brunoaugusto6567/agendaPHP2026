@@ -359,7 +359,7 @@
                           <i class="fas fa-user-edit"></i>
                         </a>
 
-                        <a href="conteudo/del-contato.php?idDel="
+                        <a href="conteudo/del-contato.php?idDel=<?php echo $show-> $id_contatos; ?>"
                            onclick="return confirm('Deseja remover o contato')"
                            class="btn btn-danger"
                            title="Remover Contato">
